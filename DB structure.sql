@@ -56,9 +56,7 @@ INSERT INTO inventory_movements (product_id, movement_type, quantity) VALUES (4,
 INSERT INTO inventory_movements (product_id, movement_type, quantity) VALUES (5, 'receipt', 100);
 
 
-
-
-
-
-
-
+select b.*, b.price * total_sale as total_amount from (select p.id, p."name", p.price,
+COUNT(*) FILTER (WHERE im.movement_type = 'sale') as total_sale
+from products p join inventory_movements im on im.product_id = p.id 
+group by p.id, p.name) b;
