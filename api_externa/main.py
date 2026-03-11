@@ -53,7 +53,10 @@ def create_order(order: OrderCreate, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(order_item)
 
-    return order_to_create
+    return {
+        "order_id": order_to_create.id,
+        "status": "created"
+    }
 
 
 @app.get("/orders/{order_id}", response_model=OrderDetail)
@@ -80,7 +83,7 @@ def order_update_status(
     
     order.status = order_status.status
     db.commit()
-    return order
+    return {"status": "updated order"}
 
 
 @app.get("/inventory-movements")
